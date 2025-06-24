@@ -1,4 +1,7 @@
+use std::cell::RefCell;
+use std::rc::Rc;
 use crate::ast::Ast;
+use crate::ast::diagnostics::{DiagnosticBagCell, DiagnosticsBag};
 use crate::ast::evaluator::AstEvaluator;
 use crate::ast::lexer::Lexer;
 use crate::ast::parser::Parser;
@@ -15,8 +18,10 @@ fn main() {
     }
     // println!("{:#?}", tokens);
 
+    let diagnostics_bag: DiagnosticBagCell = Rc::new(RefCell::new(DiagnosticsBag::new()));
+
     let mut ast = Ast::new();
-    let mut parser = Parser::from_input(input);
+    let mut parser = Parser::from_input(input, diagnostics_bag);
     while let Some(statement) = parser.next_statement() {
         ast.add_statement(statement);
     }

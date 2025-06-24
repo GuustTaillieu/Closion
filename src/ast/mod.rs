@@ -3,6 +3,7 @@ use crate::ast::lexer::Token;
 pub mod lexer;
 pub mod parser;
 pub mod evaluator;
+pub mod diagnostics;
 
 pub struct Ast {
     statements: Vec<AstStatement>,
